@@ -9,17 +9,17 @@ import FireExtinguisherScene from "../components/FireExtinguisherScene/FireExtin
 export default function Home() {
   const lenis = useLenis();
   const h1Ref = useRef<HTMLHeadingElement>(null);
-  const wrapper2Ref = useRef<HTMLDivElement>(null);
+  const wrapper1Ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!lenis) return;
 
     const handleScroll = (e: { scroll: number }) => {
-      if (!h1Ref.current || !wrapper2Ref.current) return;
+      if (!h1Ref.current || !wrapper1Ref.current) return;
 
       const windowHeight = window.innerHeight;
-      const wrapper2Start = wrapper2Ref.current.offsetTop;
-      const wrapper2Height = wrapper2Ref.current.offsetHeight;
+      const wrapper2Start = wrapper1Ref.current.offsetTop;
+      const wrapper2Height = wrapper1Ref.current.offsetHeight;
 
       // Start when wrapper top hits viewport top, end when wrapper bottom hits viewport bottom
       const scrollStart = wrapper2Start;
@@ -32,12 +32,6 @@ export default function Home() {
         0,
         Math.min(1, (e.scroll - scrollStart) / (scrollEnd - scrollStart))
       );
-
-      // Animate h1 based on progress
-      h1Ref.current.style.transform = `scale(${
-        0.5 + progress * 0.5
-      }) translateX(${progress * 1000}px)`;
-      h1Ref.current.style.opacity = `${progress}`;
     };
 
     lenis.on("scroll", handleScroll);
@@ -49,13 +43,13 @@ export default function Home() {
 
   return (
     <div>
-      <div className={styles.wrapper1}>
+      <div className={styles.wrapper1} ref={wrapper1Ref}>
         <div className={classNames(styles.section, styles.section1)}>
-          <FireExtinguisherScene />
+          <FireExtinguisherScene wrapperRef={wrapper1Ref} />
         </div>
       </div>
 
-      <div className={styles.wrapper2} ref={wrapper2Ref}>
+      <div className={styles.wrapper2}>
         <div className={classNames(styles.section, styles.section2)}>
           <h1 ref={h1Ref}>Second page</h1>
         </div>

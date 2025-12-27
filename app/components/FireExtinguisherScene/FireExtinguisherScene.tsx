@@ -1,33 +1,27 @@
 "use client";
 
-import { OrbitControls } from "@react-three/drei";
+import dynamic from "next/dynamic";
 import { Canvas } from "@react-three/fiber";
-import FireExtinguisher from "../../components/FireExtinguisher/FireExtinguisher";
 import styles from "./FireExtinguisherScene.module.scss";
 
-export default function FireExtinguisherScene() {
+const FireExtinguisherExperience = dynamic(
+  () =>
+    import(
+      "./components/FireExtinguisherExperience/FireExtinguisherExperience"
+    ),
+  { ssr: false }
+);
+
+interface FireExtinguisherSceneProps {
+  wrapperRef: React.RefObject<HTMLDivElement | null>;
+}
+
+export default function FireExtinguisherScene({
+  wrapperRef,
+}: FireExtinguisherSceneProps) {
   return (
-    <Canvas
-      shadows
-      camera={{
-        fov: 45,
-        near: 0.1,
-        far: 200,
-        position: [-4, 3, 6],
-      }}
-      className={styles.root}
-    >
-      <OrbitControls makeDefault />
-
-      <directionalLight
-        castShadow
-        position={[1, 2, 3]}
-        intensity={4.5}
-        shadow-normalBias={0.04}
-      />
-      <ambientLight intensity={1.5} />
-
-      <FireExtinguisher />
+    <Canvas shadows className={styles.root}>
+      <FireExtinguisherExperience wrapperRef={wrapperRef} />
     </Canvas>
   );
 }
