@@ -12,6 +12,11 @@ interface FireExtinguisherExperienceProps {
   wrapperRef: React.RefObject<HTMLDivElement | null>;
 }
 
+// Easing function for smooth start and end
+const easeInOutCubic = (t: number): number => {
+  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+};
+
 export default function FireExtinguisherExperience({
   wrapperRef,
 }: FireExtinguisherExperienceProps) {
@@ -98,7 +103,9 @@ export default function FireExtinguisherExperience({
 
   useFrame(() => {
     if (cameraRef.current && fireExtinguisherRef.current) {
-      const progress = scrollProgressRef.current;
+      // Remap progress so animation completes at 90% scroll
+      const remappedProgress = Math.min(scrollProgressRef.current / 0.9, 1);
+      const progress = easeInOutCubic(remappedProgress);
 
       cameraRef.current.position.lerpVectors(
         new THREE.Vector3(
@@ -111,7 +118,7 @@ export default function FireExtinguisherExperience({
           finalCameraPosition.y,
           finalCameraPosition.z
         ),
-        scrollProgressRef.current
+        progress
       );
 
       const cameraTarget = new THREE.Vector3().lerpVectors(
@@ -125,7 +132,7 @@ export default function FireExtinguisherExperience({
           finalCameraTarget.y,
           finalCameraTarget.z
         ),
-        scrollProgressRef.current
+        progress
       );
 
       cameraRef.current.lookAt(cameraTarget);
