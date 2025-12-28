@@ -6,6 +6,7 @@
   width: 100%;
   height: 300dvh;
   position: relative;
+  scroll-timeline-name: --wrapper1-scroll;
 }
 
 .content {
@@ -29,12 +30,23 @@
     font-size: 92px;
     color: #fff;
     text-align: center;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2),
+      0 16px 32px rgba(0, 0, 0, 0.1);
   }
+
+  animation: fade-out ease-in-out;
+  animation-timeline: view();
+  animation-range-start: calc(100vh - 50px);
+  animation-range-end: calc(100vh + 300px);
 }
 
 .content2 {
   top: 150vh;
   transform: translateY(-50%);
+
+  animation: fade-in ease-in-out, fade-out ease-in-out;
+  animation-timeline: view(), view();
+  animation-range: -250px 50vh, 50vh calc(100vh + 250px);
 }
 
 .content2Inner {
@@ -50,12 +62,17 @@
   p {
     font-size: 42px;
     color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 }
 
 .content3 {
   top: 250vh;
   transform: translateY(-50%);
+
+  animation: fade-in ease-in-out;
+  animation-timeline: view();
+  animation-range: -250px 50vh;
 }
 
 .content3Inner {
@@ -72,12 +89,15 @@
     font-size: 52px;
     color: #fff;
     margin-bottom: 0.2em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.2),
+      0 8px 16px rgba(0, 0, 0, 0.1);
   }
 
   p {
     font-size: 32px;
     color: #fff;
     margin-bottom: 1em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -93,7 +113,6 @@
 .section1 {
   background: #000;
   background: linear-gradient(#c02425, #f0cb35);
-  // background: linear-gradient(#dd1818, #000);
 
   text-align: center;
 }
@@ -104,8 +123,6 @@
 }
 
 .section2 {
-  // background: linear-gradient(#000 80%, #dd1818);
-  // background: linear-gradient(#dd1818, #000);
   background: #000;
 
   h1 {
@@ -126,4 +143,26 @@
 
 .section3 {
   background: cyan;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    scale: 0.95;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 0.95;
+  }
 }
