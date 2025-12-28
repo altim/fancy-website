@@ -5,8 +5,96 @@ import { Float, PerspectiveCamera } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { useControls } from "leva";
 import FireExtinguisher from "../FireExtinguisher/FireExtinguisher";
+
+type AnimationStep = {
+  cameraPosition: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  cameraTarget: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  objectRotation: {
+    x: number;
+    y: number;
+    z: number;
+  };
+};
+
+const animationSteps: AnimationStep[] = [
+  {
+    cameraPosition: {
+      x: 0,
+      y: 1.1,
+      z: 1.2,
+    },
+    cameraTarget: {
+      x: 0,
+      y: 1.3,
+      z: 0,
+    },
+    objectRotation: {
+      x: 0,
+      y: -(Math.PI / 3 + 2 * Math.PI),
+      z: 0,
+    },
+  },
+  {
+    cameraPosition: {
+      x: 0,
+      y: 1,
+      z: 1.2,
+    },
+    cameraTarget: {
+      x: -0.5,
+      y: 0.9,
+      z: 0,
+    },
+    objectRotation: {
+      x: 0,
+      y: -2,
+      z: 0.2,
+    },
+  },
+  {
+    cameraPosition: {
+      x: 0,
+      y: 1,
+      z: 2,
+    },
+    cameraTarget: {
+      x: 1,
+      y: 0.7,
+      z: 0,
+    },
+    objectRotation: {
+      x: 0,
+      y: 5.2,
+      z: 0.2,
+    },
+  },
+];
+
+const getCurrentAnimationSteps = (progress: number) => {
+  const numberOfSteps = animationSteps.length - 1;
+  const switchingProgressValue = 1 / numberOfSteps;
+
+  const currentStepsPair = Math.min(
+    Number(Math.floor(progress / switchingProgressValue)),
+    numberOfSteps - 1
+  );
+
+  console.log("currentStepsPair:", currentStepsPair);
+
+  return [
+    animationSteps[currentStepsPair],
+    animationSteps[currentStepsPair + 1],
+  ];
+};
 
 interface FireExtinguisherExperienceProps {
   wrapperRef: React.RefObject<HTMLDivElement | null>;
@@ -24,53 +112,6 @@ export default function FireExtinguisherExperience({
   const fireExtinguisherRef = useRef<THREE.Group>(null);
   const scrollProgressRef = useRef(0); // Store scroll progress for useFrame
   const lenis = useLenis();
-
-  const {
-    initialCameraPosition,
-    finalCameraPosition,
-    initialCameraTarget,
-    finalCameraTarget,
-  } = useControls("Camera", {
-    initialCameraPosition: {
-      value: { x: 0, y: 1, z: 1.2 },
-      step: 0.1,
-      min: -10,
-      max: 10,
-    },
-    finalCameraPosition: {
-      value: { x: 0, y: 1, z: 2 },
-      step: 0.1,
-      min: -10,
-      max: 10,
-    },
-    initialCameraTarget: {
-      value: { x: -0.5, y: 0.9, z: 0 },
-      step: 0.1,
-      min: -10,
-      max: 10,
-    },
-    finalCameraTarget: {
-      value: { x: 1, y: 0.7, z: 0 },
-      step: 0.1,
-      min: -10,
-      max: 10,
-    },
-  });
-
-  const { initialRotation, finalRotation } = useControls("Object Rotation", {
-    initialRotation: {
-      value: { x: 0, y: -Math.PI / 4, z: 0 },
-      step: 0.1,
-      min: -Math.PI * 2,
-      max: Math.PI * 2,
-    },
-    finalRotation: {
-      value: { x: 0, y: 5.2, z: 0.2 },
-      step: 0.1,
-      min: -Math.PI * 2,
-      max: Math.PI * 2,
-    },
-  });
 
   // Update scroll progress from Lenis
   useEffect(() => {
@@ -103,34 +144,42 @@ export default function FireExtinguisherExperience({
 
   useFrame(() => {
     if (cameraRef.current && fireExtinguisherRef.current) {
+      const [firstAnimationStep, secondAnimationStep] =
+        getCurrentAnimationSteps(scrollProgressRef.current);
+
       // Remap progress so animation completes at 90% scroll
-      const remappedProgress = Math.min(scrollProgressRef.current / 0.9, 1);
+      const remappedProgress =
+        scrollProgressRef.current < 1
+          ? Math.min((scrollProgressRef.current * 2) % 1, 1)
+          : 1;
+
+      console.log("remappedProgress:", remappedProgress);
       const progress = easeInOutCubic(remappedProgress);
 
       cameraRef.current.position.lerpVectors(
         new THREE.Vector3(
-          initialCameraPosition.x,
-          initialCameraPosition.y,
-          initialCameraPosition.z
+          firstAnimationStep.cameraPosition.x,
+          firstAnimationStep.cameraPosition.y,
+          firstAnimationStep.cameraPosition.z
         ),
         new THREE.Vector3(
-          finalCameraPosition.x,
-          finalCameraPosition.y,
-          finalCameraPosition.z
+          secondAnimationStep.cameraPosition.x,
+          secondAnimationStep.cameraPosition.y,
+          secondAnimationStep.cameraPosition.z
         ),
         progress
       );
 
       const cameraTarget = new THREE.Vector3().lerpVectors(
         new THREE.Vector3(
-          initialCameraTarget.x,
-          initialCameraTarget.y,
-          initialCameraTarget.z
+          firstAnimationStep.cameraTarget.x,
+          firstAnimationStep.cameraTarget.y,
+          firstAnimationStep.cameraTarget.z
         ),
         new THREE.Vector3(
-          finalCameraTarget.x,
-          finalCameraTarget.y,
-          finalCameraTarget.z
+          secondAnimationStep.cameraTarget.x,
+          secondAnimationStep.cameraTarget.y,
+          secondAnimationStep.cameraTarget.z
         ),
         progress
       );
@@ -139,22 +188,20 @@ export default function FireExtinguisherExperience({
 
       // Interpolate object rotation
       fireExtinguisherRef.current.rotation.x = THREE.MathUtils.lerp(
-        initialRotation.x,
-        finalRotation.x,
+        firstAnimationStep.objectRotation.x,
+        secondAnimationStep.objectRotation.x,
         progress
       );
       fireExtinguisherRef.current.rotation.y = THREE.MathUtils.lerp(
-        initialRotation.y,
-        finalRotation.y,
+        firstAnimationStep.objectRotation.y,
+        secondAnimationStep.objectRotation.y,
         progress
       );
       fireExtinguisherRef.current.rotation.z = THREE.MathUtils.lerp(
-        initialRotation.z,
-        finalRotation.z,
+        firstAnimationStep.objectRotation.z,
+        secondAnimationStep.objectRotation.z,
         progress
       );
-
-      console.log(scrollProgressRef.current);
     }
   });
 
@@ -165,9 +212,9 @@ export default function FireExtinguisherExperience({
         makeDefault
         position={
           new THREE.Vector3(
-            initialCameraPosition.x,
-            initialCameraPosition.y,
-            initialCameraPosition.z
+            animationSteps[0].cameraPosition.x,
+            animationSteps[0].cameraPosition.y,
+            animationSteps[0].cameraPosition.z
           )
         }
         fov={50}
@@ -181,7 +228,11 @@ export default function FireExtinguisherExperience({
       <ambientLight intensity={1.5} />
       <group
         ref={fireExtinguisherRef}
-        rotation={[initialRotation.x, initialRotation.y, initialRotation.z]}
+        rotation={[
+          animationSteps[0].objectRotation.x,
+          animationSteps[0].objectRotation.y,
+          animationSteps[0].objectRotation.z,
+        ]}
       >
         <Float floatIntensity={0} rotationIntensity={0.5}>
           <FireExtinguisher />
