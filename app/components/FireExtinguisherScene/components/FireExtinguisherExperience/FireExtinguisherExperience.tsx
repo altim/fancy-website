@@ -88,8 +88,6 @@ const getCurrentAnimationSteps = (progress: number) => {
     numberOfSteps - 1
   );
 
-  console.log("currentStepsPair:", currentStepsPair);
-
   return [
     animationSteps[currentStepsPair],
     animationSteps[currentStepsPair + 1],
@@ -147,13 +145,12 @@ export default function FireExtinguisherExperience({
       const [firstAnimationStep, secondAnimationStep] =
         getCurrentAnimationSteps(scrollProgressRef.current);
 
-      // Remap progress so animation completes at 90% scroll
+      // Remap progress so that it goes twice from 0 to 100%
       const remappedProgress =
         scrollProgressRef.current < 1
           ? Math.min((scrollProgressRef.current * 2) % 1, 1)
           : 1;
 
-      console.log("remappedProgress:", remappedProgress);
       const progress = easeInOutCubic(remappedProgress);
 
       cameraRef.current.position.lerpVectors(
