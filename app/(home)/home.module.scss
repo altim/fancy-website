@@ -36,8 +36,7 @@
 
   animation: fade-out ease-in-out;
   animation-timeline: view();
-  animation-range-start: calc(100vh - 50px);
-  animation-range-end: calc(100vh + 300px);
+  animation-range: exit;
 }
 
 .content2 {
