@@ -1,6 +1,5 @@
-import Link from "next/link";
-import styles from "./Navigation.module.scss";
 import { LogoIcon } from "@/app/components/icons/LogoIcon";
+import styles from "./Navigation.module.scss";
 
 export default function Navigation() {
   return (
