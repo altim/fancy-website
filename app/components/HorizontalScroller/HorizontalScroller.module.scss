@@ -26,7 +26,7 @@
   align-items: center;
 
   h3 {
-    font-size: 64px;
+    font-size: 96px;
     font-weight: 900;
     margin-bottom: 0.5em;
     background: linear-gradient(45deg, #ffd700, #ff6b00, #ff0000);
@@ -35,6 +35,7 @@
     -webkit-text-fill-color: transparent;
     color: transparent;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-transform: uppercase;
   }
 
   p {
