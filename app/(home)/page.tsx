@@ -4,13 +4,16 @@ import classNames from "classnames";
 import { useRef } from "react";
 import FireExtinguisherScene from "../components/FireExtinguisherScene/FireExtinguisherScene";
 import styles from "./home.module.scss";
+import Navigation from "../components/FireExtinguisherScene/components/Navigation/Navigation";
 
 export default function Home() {
   const wrapper1Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div>
-      <div className={styles.wrapper1} ref={wrapper1Ref}>
+      <Navigation />
+
+      <div className={styles.wrapper1} ref={wrapper1Ref} id="firetrace">
         <div className={classNames(styles.content, styles.content1)}>
           <div className={styles.contentInner}>
             <div className={styles.text1}>
@@ -67,14 +70,20 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.wrapper2}>
+      <div className={styles.wrapper2} id="how-it-works">
         <div className={classNames(styles.section, styles.section2)}>
           <h1>Second page</h1>
         </div>
       </div>
 
-      <div className={styles.wrapper3}>
+      <div className={styles.wrapper3} id="applications">
         <div className={classNames(styles.section, styles.section3)}>
+          <h1>Third page</h1>
+        </div>
+      </div>
+
+      <div className={styles.wrapper4} id="contact">
+        <div className={classNames(styles.section, styles.section4)}>
           <h1>Third page</h1>
         </div>
       </div>

@@ -24,7 +24,7 @@
 }
 
 .content1 {
-  top: 100px;
+  top: 150px;
 
   h1 {
     font-size: 92px;
@@ -110,7 +110,7 @@
 }
 
 .section1 {
-  background: #f0cb35;
+  background: #fff;
   text-align: center;
 }
 
@@ -140,6 +140,15 @@
 
 .section3 {
   background: cyan;
+}
+
+.wrapper4 {
+  width: 100%;
+  height: 300dvh;
+}
+
+.section4 {
+  background: rgb(255, 0, 162);
 }
 
 @keyframes fade-in {
