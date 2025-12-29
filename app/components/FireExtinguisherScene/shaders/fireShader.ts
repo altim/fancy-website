@@ -7,6 +7,8 @@ export const fireVertexShader = `
 `;
 
 export const fireFragmentShader = `
+  precision mediump float;
+
   uniform float uTime;
   uniform float uProgress;
   varying vec2 vUv;
@@ -34,7 +36,7 @@ export const fireFragmentShader = `
     float amplitude = 0.5;
     float frequency = 0.0;
 
-    for (int i = 0; i < 6; i++) {
+    for (int i = 0; i < 4; i++) {
       value += amplitude * noise(st);
       st *= 2.0;
       amplitude *= 0.5;
@@ -52,10 +54,9 @@ export const fireFragmentShader = `
     // Multiple layers of noise for more complex fire
     float fireNoise1 = fbm(fireUv * 2.5 + vec2(uTime * 0.3, 0.0));
     float fireNoise2 = fbm(fireUv * 5.0 + vec2(-uTime * 0.5, -uTime * 0.3));
-    float fireNoise3 = fbm(fireUv * 8.0 + vec2(uTime * 0.4, -uTime * 0.6));
 
     // Combine noise layers
-    float fireNoise = fireNoise1 * 0.5 + fireNoise2 * 0.3 + fireNoise3 * 0.2;
+    float fireNoise = fireNoise1 * 0.6 + fireNoise2 * 0.4;
 
     // Create fire shape - stronger at bottom, fading at top
     float heightGradient = 1.0 - smoothstep(0.0, 0.8, uv.y);

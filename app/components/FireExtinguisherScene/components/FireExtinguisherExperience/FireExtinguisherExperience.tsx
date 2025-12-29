@@ -229,7 +229,7 @@ export default function FireExtinguisherExperience({
       />
 
       <mesh position={[0, 0, -5]} scale={[40, 40, 1]}>
-        <planeGeometry args={[1, 1, 64, 64]} />
+        <planeGeometry args={[1, 1, 32, 32]} />
         <shaderMaterial
           ref={backgroundMaterialRef}
           vertexShader={fireVertexShader}

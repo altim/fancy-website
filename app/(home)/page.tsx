@@ -5,6 +5,7 @@ import { useRef } from "react";
 import FireExtinguisherScene from "../components/FireExtinguisherScene/FireExtinguisherScene";
 import styles from "./home.module.scss";
 import Navigation from "../components/FireExtinguisherScene/components/Navigation/Navigation";
+import HorizontalScroller from "../components/HorizontalScroller/HorizontalScroller";
 
 export default function Home() {
   const wrapper1Ref = useRef<HTMLDivElement>(null);
@@ -72,7 +73,7 @@ export default function Home() {
 
       <div className={styles.wrapper2} id="how-it-works">
         <div className={classNames(styles.section, styles.section2)}>
-          <h1>Second page</h1>
+          <HorizontalScroller />
         </div>
       </div>
 
