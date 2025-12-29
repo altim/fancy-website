@@ -6,6 +6,7 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import FireExtinguisher from "../FireExtinguisher/FireExtinguisher";
+import { fireVertexShader, fireFragmentShader } from "../../shaders/fireShader";
 
 type AnimationStep = {
   cameraPosition: {
@@ -140,7 +141,17 @@ export default function FireExtinguisherExperience({
     };
   }, [lenis, wrapperRef]);
 
-  useFrame(() => {
+  // Background shader material
+  const backgroundMaterialRef = useRef<THREE.ShaderMaterial>(null);
+
+  useFrame(({ clock }) => {
+    // Update background shader time uniform
+    if (backgroundMaterialRef.current) {
+      backgroundMaterialRef.current.uniforms.uTime.value = clock.elapsedTime;
+      backgroundMaterialRef.current.uniforms.uProgress.value =
+        scrollProgressRef.current;
+    }
+
     if (cameraRef.current && fireExtinguisherRef.current) {
       const [firstAnimationStep, secondAnimationStep] =
         getCurrentAnimationSteps(scrollProgressRef.current);
@@ -216,6 +227,20 @@ export default function FireExtinguisherExperience({
         }
         fov={50}
       />
+
+      <mesh position={[0, 0, -5]} scale={[40, 40, 1]}>
+        <planeGeometry args={[1, 1, 64, 64]} />
+        <shaderMaterial
+          ref={backgroundMaterialRef}
+          vertexShader={fireVertexShader}
+          fragmentShader={fireFragmentShader}
+          uniforms={{
+            uTime: { value: 0 },
+            uProgress: { value: 0 },
+          }}
+        />
+      </mesh>
+
       <directionalLight
         castShadow
         position={[1, 2, 3]}
