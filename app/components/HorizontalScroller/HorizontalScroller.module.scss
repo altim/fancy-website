@@ -1,11 +1,15 @@
 .root {
   width: 300%;
   height: 100vh;
+  display: flex;
+  will-change: transform;
 }
 
 .slide {
   width: 33.33%;
+  min-width: 100vw;
   height: 100vh;
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: 1fr;
   align-items: center;
@@ -17,7 +21,7 @@
   width: 100%;
   max-width: 1200px;
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-gap: 48px;
   align-items: center;
 
@@ -25,7 +29,7 @@
     font-size: 64px;
     font-weight: 900;
     margin-bottom: 0.5em;
-    background: linear-gradient(to right, #ffd700, #ff6b00, #ff0000);
+    background: linear-gradient(45deg, #ffd700, #ff6b00, #ff0000);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -36,18 +40,31 @@
   p {
     font-size: 22px;
     line-height: 1.4;
+    color: #fff;
   }
 }
 
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .imageWrapper {
-  width: 50vw;
+  width: 100%;
+  max-width: 600px;
   height: 50vh;
   position: relative;
+  border-radius: 12px;
 
   img {
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1),
-      0 1px 3px rgba(0, 0, 0, 0.08);
+    border-radius: 9px;
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.15),
+      0 4px 12px rgba(255, 255, 255, 0.12), 0 1px 3px rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
   }
 }

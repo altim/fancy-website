@@ -6,7 +6,6 @@
   width: 100%;
   height: 300dvh;
   position: relative;
-  scroll-timeline-name: --wrapper1-scroll;
 }
 
 .content {
@@ -120,7 +119,7 @@
 }
 
 .section2 {
-  background: #fff;
+  background: #121212;
 
   h1 {
     opacity: 0;
@@ -139,7 +138,7 @@
 }
 
 .section3 {
-  background: cyan;
+  background: #121212;
 }
 
 .wrapper4 {
@@ -148,7 +147,7 @@
 }
 
 .section4 {
-  background: rgb(255, 0, 162);
+  background: #121212;
 }
 
 @keyframes fade-in {

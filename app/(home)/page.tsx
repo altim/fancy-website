@@ -9,6 +9,7 @@ import HorizontalScroller from "../components/HorizontalScroller/HorizontalScrol
 
 export default function Home() {
   const wrapper1Ref = useRef<HTMLDivElement>(null);
+  const wrapper2Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -71,9 +72,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.wrapper2} id="how-it-works">
+      <div className={styles.wrapper2} id="how-it-works" ref={wrapper2Ref}>
         <div className={classNames(styles.section, styles.section2)}>
-          <HorizontalScroller />
+          <HorizontalScroller wrapperRef={wrapper2Ref} />
         </div>
       </div>
 

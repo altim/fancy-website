@@ -5,8 +5,8 @@ export default function Navigation() {
   return (
     <div className={styles.root}>
       <div>
-        <a href="#firetrace">
-          <LogoIcon width="140" />
+        <a href="#firetrace" className={styles.logo}>
+          FIRETRACE
         </a>
       </div>
       <div className={styles.menu}>
