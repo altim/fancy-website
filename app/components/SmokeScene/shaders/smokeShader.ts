@@ -35,8 +35,8 @@ export const smokeFragmentShader = `
     float amplitude = 0.5;
     float frequency = 0.0;
 
-    // 4 octaves for smooth smoke billows
-    for (int i = 0; i < 4; i++) {
+    // 3 octaves - optimized for performance
+    for (int i = 0; i < 3; i++) {
       value += amplitude * noise(st);
       st *= 2.0;
       amplitude *= 0.5;
@@ -47,30 +47,26 @@ export const smokeFragmentShader = `
   void main() {
     vec2 smokeUv = vUv;
 
-    // Constant upward drift (not scroll-dependent)
-    smokeUv.y -= uTime * 0.05;
+    // Constant upward drift from bottom to top
+    smokeUv.y -= uTime * 0.08;
 
-    // Horizontal sway for organic smoke movement
-    float sway = sin(uTime * 0.5 + vUv.y * 3.0) * 0.08;
-    smokeUv.x += sway;
+    // Turbulent horizontal movement - simplified
+    smokeUv.x += sin(uTime * 0.6 + vUv.y * 4.0) * 0.12;
+    smokeUv.x += sin(uTime * 0.4 + vUv.y * 3.0) * 0.08;
 
-    // Add additional turbulence
-    smokeUv.x += sin(uTime * 0.3 + vUv.y * 2.0) * 0.04;
+    // Two layers of noise for turbulent smoke - optimized
+    float smoke1 = fbm(smokeUv * 2.5);
+    float smoke2 = fbm(smokeUv * 4.5 + vec2(uTime * 0.2, -uTime * 0.1));
 
-    // Multiple layers of noise for complex smoke patterns
-    float smoke1 = fbm(smokeUv * 2.0);
-    float smoke2 = fbm(smokeUv * 4.0 + vec2(uTime * 0.15, 0.0));
-    float smoke3 = fbm(smokeUv * 1.0 - vec2(0.0, uTime * 0.08));
-
-    // Combine noise layers with more weight
-    float smokeNoise = smoke1 * 0.5 + smoke2 * 0.3 + smoke3 * 0.2;
+    // Combine noise layers
+    float smokeNoise = smoke1 * 0.6 + smoke2 * 0.4;
 
     // Vertical gradient - denser at bottom, completely fades out at top
     float gradient = smoothstep(1.0, 0.0, vUv.y);
 
     // Aggressive fade out at the top to ensure complete transparency
-    // Fades from y=0.3 (visible) to y=0.7 (invisible)
-    float topFade = smoothstep(0.7, 0.3, vUv.y);
+    // Fades from y=0.4 (visible) to y=0.8 (invisible at 80% of page)
+    float topFade = smoothstep(0.8, 0.4, vUv.y);
 
     // Calculate smoke density
     float smokeDensity = gradient * smokeNoise * topFade;
