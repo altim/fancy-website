@@ -7,11 +7,13 @@ import styles from "./home.module.scss";
 import Navigation from "../components/FireExtinguisherScene/components/Navigation/Navigation";
 import HorizontalScroller from "../components/HorizontalScroller/HorizontalScroller";
 import ImagesGrid from "../components/ImagesGrid/ImagesGrid";
+import Footer from "../components/Footer/Footer";
 
 export default function Home() {
   const wrapper1Ref = useRef<HTMLDivElement>(null);
   const wrapper2Ref = useRef<HTMLDivElement>(null);
   const wrapper3Ref = useRef<HTMLDivElement>(null);
+  const wrapper4Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -86,9 +88,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.wrapper4} id="contact">
+      <div className={styles.wrapper4} id="contact" ref={wrapper4Ref}>
         <div className={classNames(styles.section, styles.section4)}>
-          <h1>Third page</h1>
+          <Footer wrapperRef={wrapper4Ref} />
         </div>
       </div>
     </div>
