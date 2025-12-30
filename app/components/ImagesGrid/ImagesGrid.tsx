@@ -8,18 +8,18 @@ interface ImagesGridProps {
   wrapperRef: React.RefObject<HTMLDivElement | null>;
 }
 
-const remapProgress = (progress, start, end) => {
+const remapProgress = (progress: number, start: number, end: number) => {
   return Math.max(0, Math.min(1, (progress - start) / (end - start)));
 };
 
 export default function ImagesGrid({ wrapperRef }: ImagesGridProps) {
   const lenis = useLenis();
-  const image1 = useRef(null);
-  const image2 = useRef(null);
-  const image3 = useRef(null);
-  const image4 = useRef(null);
-  const image5 = useRef(null);
-  const image6 = useRef(null);
+  const image1 = useRef<HTMLImageElement>(null);
+  const image2 = useRef<HTMLImageElement>(null);
+  const image3 = useRef<HTMLImageElement>(null);
+  const image4 = useRef<HTMLImageElement>(null);
+  const image5 = useRef<HTMLImageElement>(null);
+  const image6 = useRef<HTMLImageElement>(null);
 
   const imageAnimation = [
     {
