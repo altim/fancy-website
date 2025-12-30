@@ -99,7 +99,7 @@ export default function ImagesGrid({ wrapperRef }: ImagesGridProps) {
           y: lerp(imageConfig.startY, 0, easedProgress),
           scale: lerp(2, 1, imageProgress),
           opacity: easedProgress,
-          config: config.gentle, // Creates springy overshoot effect
+          config: config.gentle,
         };
       });
     };
