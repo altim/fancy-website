@@ -6,10 +6,12 @@ import FireExtinguisherScene from "../components/FireExtinguisherScene/FireExtin
 import styles from "./home.module.scss";
 import Navigation from "../components/FireExtinguisherScene/components/Navigation/Navigation";
 import HorizontalScroller from "../components/HorizontalScroller/HorizontalScroller";
+import ImagesGrid from "../components/ImagesGrid/ImagesGrid";
 
 export default function Home() {
   const wrapper1Ref = useRef<HTMLDivElement>(null);
   const wrapper2Ref = useRef<HTMLDivElement>(null);
+  const wrapper3Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div>
@@ -78,9 +80,9 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.wrapper3} id="applications">
+      <div className={styles.wrapper3} id="applications" ref={wrapper3Ref}>
         <div className={classNames(styles.section, styles.section3)}>
-          <h1>Third page</h1>
+          <ImagesGrid wrapperRef={wrapper3Ref} />
         </div>
       </div>
 
