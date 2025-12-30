@@ -16,7 +16,7 @@ export default function Footer({ wrapperRef }: FooterProps) {
             Call us at <a href="tel:+1 480-535-4189">+1 480-535-4189</a>
           </p>
           <p>
-            Email us at: <a href="some@email.com">some@email.com</a>
+            Email us at: <a href="mailto:some@email.com">some@email.com</a>
           </p>
           <p>Additiona information goes here</p>
         </div>
