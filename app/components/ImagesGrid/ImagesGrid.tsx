@@ -97,7 +97,7 @@ export default function ImagesGrid({ wrapperRef }: ImagesGridProps) {
         return {
           x: lerp(imageConfig.startX, 0, easedProgress),
           y: lerp(imageConfig.startY, 0, easedProgress),
-          scale: lerp(0.01, 1, imageProgress),
+          scale: lerp(2, 1, imageProgress),
           opacity: easedProgress,
           config: config.gentle, // Creates springy overshoot effect
         };
