@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from "./ImagesGrid.module.scss";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useLenis } from "@/app/contexts/LenisContext";
 import * as THREE from "three";
 
@@ -21,50 +21,53 @@ export default function ImagesGrid({ wrapperRef }: ImagesGridProps) {
   const image5 = useRef<HTMLImageElement>(null);
   const image6 = useRef<HTMLImageElement>(null);
 
-  const imageAnimation = [
-    {
-      imageRef: image1,
-      startX: -1000,
-      startY: -800,
-      animationStart: 0,
-      animationEnd: 0.5,
-    },
-    {
-      imageRef: image2,
-      startX: 100,
-      startY: -1200,
-      animationStart: 0,
-      animationEnd: 0.7,
-    },
-    {
-      imageRef: image3,
-      startX: 500,
-      startY: -1800,
-      animationStart: 0,
-      animationEnd: 0.55,
-    },
-    {
-      imageRef: image4,
-      startX: -800,
-      startY: 1800,
-      animationStart: 0,
-      animationEnd: 0.45,
-    },
-    {
-      imageRef: image5,
-      startX: 300,
-      startY: 1200,
-      animationStart: 0,
-      animationEnd: 0.65,
-    },
-    {
-      imageRef: image6,
-      startX: 2000,
-      startY: 800,
-      animationStart: 0,
-      animationEnd: 0.6,
-    },
-  ];
+  const imageAnimation = useMemo(
+    () => [
+      {
+        imageRef: image1,
+        startX: -1000,
+        startY: -800,
+        animationStart: 0,
+        animationEnd: 0.5,
+      },
+      {
+        imageRef: image2,
+        startX: 100,
+        startY: -1200,
+        animationStart: 0,
+        animationEnd: 0.7,
+      },
+      {
+        imageRef: image3,
+        startX: 500,
+        startY: -1800,
+        animationStart: 0,
+        animationEnd: 0.55,
+      },
+      {
+        imageRef: image4,
+        startX: -800,
+        startY: 1800,
+        animationStart: 0,
+        animationEnd: 0.45,
+      },
+      {
+        imageRef: image5,
+        startX: 300,
+        startY: 1200,
+        animationStart: 0,
+        animationEnd: 0.65,
+      },
+      {
+        imageRef: image6,
+        startX: 2000,
+        startY: 800,
+        animationStart: 0,
+        animationEnd: 0.6,
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (!lenis || !wrapperRef?.current) return;
