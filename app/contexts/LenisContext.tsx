@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import Lenis from "lenis";
 
 type LenisContextType = {
@@ -34,11 +40,8 @@ export function LenisProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Provider re-renders once when lenis is set, then value is stable
   return (
-    <LenisContext.Provider value={{ lenis }}>
-      {children}
-    </LenisContext.Provider>
+    <LenisContext.Provider value={{ lenis }}>{children}</LenisContext.Provider>
   );
 }
 
